@@ -1,0 +1,29 @@
+plugins {
+    id 'io.nextflow.nextflow-plugin' version '1.0.0-beta.15'
+}
+
+version = '0.1.0'
+
+nextflowPlugin {
+    // Minimum Nextflow version. Must be 25.04.0 or newer for the TraceObserverV2 API.
+    nextflowVersion = '25.10.0'
+
+    // Change these to match your organisation.
+    provider = 'com.peterkneale'
+    className = 'com.peterkneale.commandarchiver.CommandArchiverPlugin'
+
+    // The factory is the extension point. The Nextflow Gradle plugin generates the
+    // extensions index from this list, so no hand-written META-INF/extensions.idx is needed.
+    extensionPoints = [
+        'com.peterkneale.commandarchiver.CommandArchiverFactory'
+    ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Tar layer for the gzipped archive. Bundled into the plugin zip at build time.
+    implementation 'org.apache.commons:commons-compress:1.27.1'
+}

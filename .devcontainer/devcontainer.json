@@ -1,0 +1,36 @@
+{
+    "name": "nf-command-archiver (Nextflow plugin)",
+
+    // Debian base with standard devcontainer tooling. Multi-arch, runs natively on Apple Silicon.
+    "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+
+    "features": {
+        // JDK for building the plugin and running the Nextflow language server.
+        // Nextflow requires Java 17+; 21 is the current LTS. Gradle is included so
+        // you can generate the missing wrapper with `gradle wrapper`.
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "21",
+            "jdkDistro": "tem",
+            "installGradle": true
+        }
+
+        // Optional: uncomment to run pipelines whose processes use Docker containers.
+        // Adds docker-in-docker and requires a privileged container.
+        // "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+
+    // Install Nextflow onto PATH, generate the Gradle wrapper if absent, then warm the launcher.
+    "postCreateCommand": "curl -s https://get.nextflow.io | bash && sudo mv nextflow /usr/local/bin/nextflow && ( [ -f gradlew ] || gradle wrapper ) && nextflow -version",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "nextflow.nextflow",
+                "vscjava.vscode-java-pack",
+                "vscjava.vscode-gradle"
+            ]
+        }
+    },
+
+    "remoteUser": "vscode"
+}
